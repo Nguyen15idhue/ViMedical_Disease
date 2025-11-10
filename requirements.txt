@@ -1,0 +1,7 @@
+pandas
+scikit-learn
+underthesea
+numpy
+torch
+joblib
+xgboost

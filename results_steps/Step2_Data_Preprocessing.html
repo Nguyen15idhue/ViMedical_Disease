@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Bước 2: Xử Lý Dữ Liệu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1, h2 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .highlight { background-color: #e7f3ff; padding: 10px; border-left: 5px solid #007bff; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Kết Quả Bước 2: Xử Lý Dữ Liệu</h1>
+    <p><strong>Dự án:</strong> Hệ Chuyên Gia Chẩn Đoán Bệnh Dựa Trên Triệu Chứng (ViMedical_Disease)</p>
+    <p><strong>Ngày thực hiện:</strong> 9/11/2025</p>
+    <p><strong>Mục tiêu:</strong> Chuyển dữ liệu văn bản tiếng Việt thành dạng số (vector nhị phân) để máy tính hiểu.</p>
+
+    <h2>Mô Tả Bước Thực Hiện</h2>
+    <ul>
+        <li><strong>Sẽ làm gì?</strong> Xử lý dữ liệu văn bản thành vector số.</li>
+        <li><strong>Làm như nào?</strong>
+            <ul>
+                <li>Trích xuất triệu chứng từ cột Question: Sử dụng underthesea để tách từ, loại bỏ stopwords.</li>
+                <li>Tạo vector nhị phân: Mỗi triệu chứng là một cột (1=có, 0=không), dùng CountVectorizer.</li>
+                <li>Xử lý nhãn: Cột Disease là label để dự đoán.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Kết Quả Chi Tiết</h2>
+    <div class="highlight">
+        <p><strong>Dữ liệu đầu vào:</strong></p>
+        <ul>
+            <li>Train: 9.648 dòng</li>
+            <li>Test: 2.412 dòng</li>
+        </ul>
+    </div>
+
+    <h3>Xử Lý Văn Bản</h3>
+    <p>Sử dụng underthesea để tách từ và loại bỏ stopwords (tôi, đang, cảm, thấy, v.v.).</p>
+    <p><strong>Ví dụ câu hỏi gốc:</strong> "Tôi đang cảm thấy mệt mỏi, chóng mặt và nhịp tim không đều. Tôi có thể đang bị bệnh gì?"</p>
+    <p><strong>Sau xử lý:</strong> "co thắt âm đạo sợ hãi khi gần gũi bạn đời có thể"</p>
+
+    <h3>Tạo Vector Nhị Phân</h3>
+    <div class="highlight">
+        <p><strong>Kích thước vocabulary:</strong> 1.000 từ/triệu chứng phổ biến nhất.</p>
+        <p><strong>Mẫu features (triệu chứng):</strong> 10, 30, acid, amidan, an, axit, ban, bao, bia, biến</p>
+    </div>
+
+    <h3>Nhãn (Labels)</h3>
+    <p>Cột Disease làm nhãn dự đoán.</p>
+    <ul>
+        <li>Số nhãn duy nhất trong train: 603</li>
+        <li>Số nhãn duy nhất trong test: 603</li>
+    </ul>
+
+    <h2>File Xuất Ra</h2>
+    <ul>
+        <li><strong>data/X_train.npy:</strong> Vector train (9.648 x 1.000)</li>
+        <li><strong>data/X_test.npy:</strong> Vector test (2.412 x 1.000)</li>
+        <li><strong>data/y_train.npy:</strong> Nhãn train</li>
+        <li><strong>data/y_test.npy:</strong> Nhãn test</li>
+    </ul>
+
+    <h2>Phân Tích và Ý Nghĩa</h2>
+    <p>
+        Bước này chuyển tri thức văn bản thành số, loại bỏ nhiễu để mô hình tập trung vào triệu chứng quan trọng. Vector nhị phân đơn giản nhưng hiệu quả cho text classification.
+        Vocabulary 1.000 giới hạn để tránh overfitting trên dataset lớn.
+    </p>
+
+    <h2>Bản Chất Sâu: Chuẩn Bị Cho Các Câu Hỏi Giáo Viên</h2>
+    <h3>Tại Sao Cần Xử Lý Dữ Liệu Văn Bản?</h3>
+    <p>
+        Máy tính (AI) không hiểu văn bản trực tiếp như con người. Văn bản là "dữ liệu không cấu trúc" – chuỗi ký tự. Để học quy luật (như triệu chứng → bệnh), cần chuyển thành "dữ liệu có cấu trúc" như số (vector). Nếu không xử lý, mô hình sẽ coi văn bản như chuỗi ngẫu nhiên, dẫn đến accuracy thấp.
+    </p>
+    <p><strong>Ví dụ:</strong> Câu "Tôi mệt mỏi" và "Tôi cảm thấy mệt" phải được nhận diện là giống nhau (cùng triệu chứng "mệt").</p>
+
+    <h3>Quy Trình NLP Cơ Bản Trong Bước Này</h3>
+    <ul>
+        <li><strong>Tokenization (Tách từ):</strong> Chia câu thành từ riêng lẻ. Với tiếng Việt (không có khoảng trắng rõ ràng), underthesea dùng thuật toán CRF để tách chính xác (ví dụ: "nhịp tim" → ["nhịp", "tim"]). Nếu sai, triệu chứng bị cắt nhầm (như "tim mạch" thành "tim", "mạch").</li>
+        <li><strong>Stopwords Removal:</strong> Loại từ phổ biến không mang ý nghĩa (tôi, đang, có). Lý do: Giảm nhiễu, tập trung vào từ khóa triệu chứng. Nếu giữ, mô hình học từ thừa, kém chính xác.</li>
+        <li><strong>Lowercasing:</strong> Chuyển về chữ thường để tránh phân biệt "Mệt" vs "mệt".</li>
+        <li><strong>Filtering:</strong> Loại từ ngắn (<2 ký tự) để tránh ký tự đơn lẻ.</li>
+    </ul>
+    <p><strong>Khó khăn với tiếng Việt:</strong> Ngôn ngữ phức tạp (từ ghép, ngữ cảnh). underthesea tốt nhưng không hoàn hảo; có thể dùng thêm thư viện như pyvi nếu cần.</p>
+
+    <h3>Vector Hóa: Tại Sao Chọn Binary Vector?</h3>
+    <p>
+        Vector hóa biến văn bản thành vector số. CountVectorizer tạo "bag-of-words" (túi từ): Mỗi từ là một chiều, giá trị là tần suất xuất hiện.
+    </p>
+    <ul>
+        <li><strong>Binary (1/0):</strong> Chỉ quan tâm có/không triệu chứng, không đếm số lần. Phù hợp vì triệu chứng thường "có" hoặc "không" trong câu hỏi.</li>
+        <li><strong>Tại sao không TF-IDF?</strong> TF-IDF cân nhắc tần suất và độ hiếm từ. Có thể tốt hơn cho text dài, nhưng dataset này ngắn (câu hỏi), binary đủ và đơn giản hơn. Nếu dùng TF-IDF, accuracy có thể cao hơn nhưng phức tạp hơn.</li>
+        <li><strong>max_features=1000:</strong> Giới hạn 1.000 từ phổ biến nhất. Lý do: Dataset có ~12k dòng, nhưng từ vựng lớn (>10k) gây "curse of dimensionality" (vector quá dài, mô hình chậm/overfit). 1.000 là cân bằng giữa đủ thông tin và hiệu quả.</li>
+    </ul>
+    <p><strong>Ví dụ vector:</strong> Câu có "mệt mỏi" và "chóng mặt" → Vector [0,0,...,1 (mệt mỏi),...,1 (chóng mặt),...,0].</p>
+
+    <h3>Nhãn (Labels) và Vấn Đề Đa Lớp</h3>
+    <p>
+        Nhãn là cột Disease (603 class). Đây là bài toán "multi-class classification" (phân loại đa lớp). Khó khăn: Nhiều bệnh có triệu chứng giống nhau (overlapping), dẫn đến confusion (nhầm lẫn).
+    </p>
+    <p><strong>Tại sao stratify trong bước 1?</strong> Đảm bảo train/test có phân bố bệnh tương tự, tránh bias (ví dụ, bệnh hiếm chỉ ở train).</p>
+
+    <h3>Các Trường Hợp Giáo Viên Có Thể Hỏi</h3>
+    <ul>
+        <li><strong>"Tại sao không dùng TF-IDF thay vì binary?"</strong> Trả lời: Binary đơn giản, phù hợp triệu chứng nhị phân. TF-IDF tốt cho text dài, nhưng dataset ngắn, binary đủ và tránh overfitting.</li>
+        <li><strong>"Xử lý tiếng Việt khó ở điểm nào?"</strong> Trả lời: Tách từ (underthesea dùng CRF), từ ghép (như "tim mạch"), ngữ cảnh. Nếu sai, triệu chứng bị cắt, accuracy giảm.</li>
+        <li><strong>"Tại sao max_features=1000?"</strong> Trả lời: Cân bằng giữa thông tin (đủ từ quan trọng) và hiệu quả (tránh vector quá dài, gây chậm/overfit).</li>
+        <li><strong>"Nếu triệu chứng chồng chéo thì sao?"</strong> Trả lời: Mô hình có thể nhầm (low accuracy). Giải pháp: Thêm dữ liệu, dùng mô hình ensemble (như Random Forest), hoặc ontology để quan hệ triệu chứng.</li>
+        <li><strong>"Bản chất của vector hóa là gì?"</strong> Trả lời: Chuyển tri thức con người (văn bản) thành tri thức máy (số), để tính toán ma trận và học quy luật.</li>
+    </ul>
+
+    <h2>Khái Niệm và Bản Chất</h2>
+    <ul>
+        <li><strong>Biểu diễn tri thức:</strong> Từ văn bản (con người) sang vector (máy). Bản chất: Chuẩn hóa để AI học.</li>
+        <li><strong>Vector hóa:</strong> Biến triệu chứng thành số. Bản chất: "Bag-of-words" giả định thứ tự không quan trọng, chỉ tập hợp từ.</li>
+        <li><strong>NLP:</strong> Xử lý ngôn ngữ. Bản chất: Giúp máy "hiểu" ngữ cảnh, loại bỏ nhiễu.</li>
+        <li><strong>Bản chất tổng thể:</strong> Bước này là "dịch" tri thức y tế từ dạng tự nhiên sang dạng toán học, nền tảng cho suy luận AI.</li>
+    </ul>
+
+    <p><em>Tham khảo: underthesea library, scikit-learn CountVectorizer, NLP basics</em></p>
+</body>
+</html>
