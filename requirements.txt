@@ -5,3 +5,5 @@ numpy
 torch
 joblib
 xgboost
+transformers
+streamlit
