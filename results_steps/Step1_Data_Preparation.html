@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Bước 1: Thu Thập và Chuẩn Bị Dữ Liệu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1, h2 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .highlight { background-color: #e7f3ff; padding: 10px; border-left: 5px solid #007bff; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Kết Quả Bước 1: Thu Thập và Chuẩn Bị Dữ Liệu</h1>
+    <p><strong>Dự án:</strong> Hệ Chuyên Gia Chẩn Đoán Bệnh Dựa Trên Triệu Chứng (ViMedical_Disease)</p>
+    <p><strong>Ngày thực hiện:</strong> 25/10/2025</p>
+    <p><strong>Mục tiêu:</strong> Thu thập và tổ chức dữ liệu từ file ViMedical_Disease.csv để làm nền tảng tri thức cho hệ thống AI.</p>
+
+    <h2>Mô Tả Bước Thực Hiện</h2>
+    <ul>
+        <li><strong>Sẽ làm gì?</strong> Thu thập và tổ chức dữ liệu từ ViMedical_Disease.csv.</li>
+        <li><strong>Làm như nào?</strong>
+            <ul>
+                <li>Tải và đọc file CSV bằng pandas.</li>
+                <li>Tách dữ liệu thành tập huấn luyện (80%) và tập kiểm tra (20%) bằng train_test_split từ scikit-learn.</li>
+                <li>Lưu trữ dữ liệu đã tách thành file train_data.csv và test_data.csv.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Kết Quả Chi Tiết</h2>
+    <div class="highlight">
+        <p><strong>Dataset gốc:</strong></p>
+        <ul>
+            <li>Số dòng: 12.060</li>
+            <li>Số cột: 2 (Disease, Question)</li>
+            <li>Số bệnh duy nhất: 603</li>
+        </ul>
+    </div>
+
+    <h3>Thống Kê Bệnh</h3>
+    <p>Mỗi bệnh có khoảng 20 câu hỏi. Dưới đây là top 10 bệnh có nhiều câu hỏi nhất:</p>
+    <table>
+        <tr><th>Bệnh</th><th>Số Câu Hỏi</th></tr>
+        <tr><td>Alzheimer</td><td>20</td></tr>
+        <tr><td>Buồng Trứng Đa Nang</td><td>20</td></tr>
+        <tr><td>Bàn Chân Đái Tháo Đường</td><td>20</td></tr>
+        <tr><td>Bàng Quang Tăng Hoạt</td><td>20</td></tr>
+        <tr><td>Béo Phì Độ 1</td><td>20</td></tr>
+        <tr><td>Béo Phì</td><td>20</td></tr>
+        <tr><td>Băng Huyết Sau Sinh</td><td>20</td></tr>
+        <tr><td>Bướu Cổ Lành Tính</td><td>20</td></tr>
+        <tr><td>Bướu Cổ Ác Tính</td><td>20</td></tr>
+        <tr><td>Bướu Giáp Keo</td><td>20</td></tr>
+    </table>
+
+    <h3>Dữ Liệu Mẫu</h3>
+    <p>5 dòng đầu của dataset:</p>
+    <table>
+        <tr><th>Disease</th><th>Question</th></tr>
+        <tr><td>Alzheimer</td><td>Tôi hiện đang có các triệu chứng như hay quên thông tin vừa tiếp nhận, khó tập trung và định hướng thời gian. Tôi có thể đang bị bệnh gì?</td></tr>
+        <tr><td>Alzheimer</td><td>Tôi đang cảm thấy khó khăn khi tham gia cuộc hội thoại và hay lặp lại những câu chuyện đã kể. Tôi có thể đang bị bệnh gì?</td></tr>
+        <tr><td>Alzheimer</td><td>Tôi hay quên nghĩa của từ và không thể theo dõi các cuộc trò chuyện. Tôi có thể đang bị bệnh gì?</td></tr>
+        <tr><td>Alzheimer</td><td>Tôi hiện đang có các triệu chứng như thay đổi tâm trạng thất thường, dễ cáu gắt và lo lắng. Tôi có thể đang bị bệnh gì?</td></tr>
+        <tr><td>Alzheimer</td><td>Tôi đang cảm thấy chán nản và muốn từ bỏ các sở thích, hoạt động xã hội. Tôi có thể đang bị bệnh gì?</td></tr>
+    </table>
+
+    <h3>Tách Train/Test</h3>
+    <div class="highlight">
+        <p><strong>Tỷ lệ tách:</strong> 80% Train, 20% Test (stratify theo Disease để cân bằng).</p>
+        <ul>
+            <li>Train set: 9.648 dòng</li>
+            <li>Test set: 2.412 dòng</li>
+        </ul>
+    </div>
+
+    <h2>File Xuất Ra</h2>
+    <ul>
+        <li><strong>train_data.csv:</strong> Dữ liệu huấn luyện (9.648 dòng).</li>
+        <li><strong>test_data.csv:</strong> Dữ liệu kiểm tra (2.412 dòng).</li>
+    </ul>
+
+    <h2>Phân Tích và Ý Nghĩa</h2>
+    <p>
+        Bước này đảm bảo dữ liệu được tổ chức đúng cách cho các bước tiếp theo. Việc tách stratify giúp mỗi tập có phân bố bệnh tương tự, tránh bias.
+        Dataset cân bằng (mỗi bệnh 20 câu), phù hợp cho mô hình học máy. Tổng cộng 12.060 dòng là đủ cho train cơ bản.
+    </p>
+
+    <h2>Bản Chất Sâu: Chuẩn Bị Cho Các Câu Hỏi Giáo Viên</h2>
+    <h3>Tại Sao Cần Thu Thập và Chuẩn Bị Dữ Liệu?</h3>
+    <p>
+        Dữ liệu là "nguồn sống" của AI. Nếu dữ liệu xấu (bias, thiếu, nhiễu), mô hình sẽ kém. Bước này "làm sạch" và tổ chức dữ liệu thô thành dạng sẵn sàng, đảm bảo tính toàn vẹn và công bằng cho train/test.
+    </p>
+    <p><strong>Ví dụ:</strong> Dataset CSV là "tri thức thô"; sau bước này, nó thành tập có cấu trúc để học.</p>
+
+    <h3>Quy Trình Đọc và Tách Dữ Liệu</h3>
+    <ul>
+        <li><strong>Đọc CSV với pandas:</strong> Pandas là thư viện Python chuyên xử lý dữ liệu bảng. Nó đọc file nhanh, xử lý missing values, và chuyển thành DataFrame (bảng). Lý do dùng pandas: Dễ thao tác, tích hợp với scikit-learn. Nếu dùng CSV module thuần, phức tạp hơn.</li>
+        <li><strong>Tách train/test (80/20):</strong> 80% train để học, 20% test để kiểm tra. Lý do tỷ lệ này: Chuẩn trong ML, cân bằng giữa đủ dữ liệu học và kiểm tra đáng tin.</li>
+        <li><strong>Stratify theo Disease:</strong> Đảm bảo phân bố bệnh giống nhau trong train/test. Lý do: Dataset có 603 class, nếu không stratify, một số bệnh hiếm có thể chỉ ở train hoặc test, gây bias (mô hình học tốt trên train nhưng kém test).</li>
+        <li><strong>Random_state=42:</strong> Seed cố định để tách reproducible (lặp lại kết quả giống nhau mỗi lần chạy).</li>
+    </ul>
+    <p><strong>Khó khăn:</strong> Dataset lớn (12k dòng), cần đảm bảo không memory overload. Pandas xử lý tốt.</p>
+
+    <h3>Tại Sao Tách Train/Test Ngay Từ Đầu?</h3>
+    <p>
+        Để tránh "data leakage" (rò rỉ dữ liệu): Nếu xử lý toàn bộ dataset rồi tách, thông tin từ test có thể ảnh hưởng train (như scaling). Tách sớm đảm bảo test "mới mẻ", đánh giá thực tế.
+    </p>
+    <p><strong>Ví dụ:</strong> Nếu normalize toàn bộ, mean từ test ảnh hưởng train → overfitting.</p>
+
+    <h3>Cấu Trúc Dataset và Ý Nghĩa</h3>
+    <p>
+        Dataset có 2 cột: Disease (nhãn) và Question (đầu vào). Mỗi bệnh 20 câu: Cân bằng, tránh class imbalance (một số class quá ít). 603 class: Nhiều, gây khó cho multi-class classification.
+    </p>
+    <p><strong>Nguồn dữ liệu:</strong> Từ cuộc thi, bài viết y tế. Đảm bảo chất lượng, nhưng có thể có nhiễu (triệu chứng không chuẩn).</p>
+
+    <h3>Các Trường Hợp Giáo Viên Có Thể Hỏi</h3>
+    <ul>
+        <li><strong>"Tại sao dùng pandas?"</strong> Trả lời: Dễ đọc CSV, thao tác DataFrame, tích hợp ML. Nếu dùng numpy, phức tạp hơn cho text.</li>
+        <li><strong>"Tại sao stratify?"</strong> Trả lời: Đảm bảo phân bố class giống nhau, tránh bias. Nếu không, mô hình có thể tốt trên class phổ biến, kém trên hiếm.</li>
+        <li><strong>"Tại sao 80/20?"</strong> Trả lời: Chuẩn ML, đủ train để học, đủ test để đánh giá. Nếu dataset nhỏ, dùng 70/30; lớn thì 90/10.</li>
+        <li><strong>"Nếu dataset có missing values thì sao?"</strong> Trả lời: Pandas có fillna(). Ở đây không có, nhưng thực tế cần kiểm tra và xử lý.</li>
+        <li><strong>"Bản chất của chuẩn bị dữ liệu là gì?"</strong> Trả lời: Chuyển dữ liệu thô thành dạng có cấu trúc, đảm bảo công bằng và toàn vẹn cho AI học.</li>
+    </ul>
+
+    <h2>Khái Niệm và Bản Chất</h2>
+    <ul>
+        <li><strong>Tri thức (Knowledge):</strong> Thông tin mà hệ thống biết, ở đây là mối liên hệ triệu chứng-bệnh từ dữ liệu thực tế.</li>
+        <li><strong>Tập huấn luyện (Training Set):</strong> Dữ liệu dùng để "dạy" mô hình.</li>
+        <li><strong>Tập kiểm tra (Test Set):</strong> Dữ liệu dùng để đánh giá mô hình sau khi train.</li>
+        <li><strong>Bản chất:</strong> Dữ liệu là "nguồn tri thức" thô; bước này chuyển nó thành dạng có thể sử dụng, đảm bảo mô hình học từ đa dạng dữ liệu (tránh bias nếu chỉ dùng một phần).</li>
+    </ul>
+
+    <p><em>Tham khảo: Dataset ViMedical_Disease (CC BY-NC-SA 4.0), pandas docs</em></p>
+</body>
+</html>
